@@ -1622,7 +1622,10 @@ function RealisticCropRotationManager:groupTouchingFarmlands(rows, getStateKey)
     local keys = {}
     for i, row in ipairs(rows) do
         parent[i] = i
-        keys[i] = getStateKey(row.farmlandId)
+        -- Only farmlands holding a map field are grouped; farmyards and loose strips stay on their own
+        if self:getFieldByFarmlandId(row.farmlandId) ~= nil then
+            keys[i] = getStateKey(row.farmlandId)
+        end
     end
 
     for i = 1, #rows do
